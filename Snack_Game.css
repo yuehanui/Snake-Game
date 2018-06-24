@@ -5,9 +5,13 @@ body {
 
 }
 
+#scoreBoard{
+    width: 400px;
+    height: 50px;
+    margin-left: 140px;
+    margin-top: 80px;
+}
 #game{ 
-
-
     background-color: #F3F3F3;
     position:absolute;
     left:0;right:0; top:0; bottom:0;
@@ -30,6 +34,7 @@ body {
 .btn:hover {
     background-color:#FFB871;
 }
+
 span{
     display: inline-grid;
 

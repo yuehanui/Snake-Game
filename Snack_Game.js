@@ -6,7 +6,7 @@ var DIR={
 }
 
 var map = {width:800,height:500};
-var span = {width:10, height:10};
+var span = {width:25, height:25};
 var layout = {
     wNum:map.width/span.width,
     hNum:map.height/span.height
@@ -16,10 +16,11 @@ var snake =[],
     space = [],
     dir = DIR.DIR_RIGHT;
 
+//variable that stores the information of scores.
+var currentScore=0;
 
-var easyBtn = document.getElementById("btn1"),
-    medBtn = document.getElementById("btn2"),
-    legenBtn = document.getElementById("btn3");
+
+var scoreBoard;
 
 
 window.onload=function(){
@@ -27,18 +28,16 @@ window.onload=function(){
     diffSelc.style.width = map.width + "px";
     diffSelc.style.height = map.height + "px";
 }
+function reload(){
+    var diffSelc = document.getElementById('game');
+    diffSelc.style.width = map.width + "px";
+    diffSelc.style.height = map.height + "px";
+}
 
-
-
-
-medBtn.addEventListener("click", function() {
-    startGame(100);
-}, true);
-legenBtn.addEventListener("click", function() {
-    startGame(50);
-}, false);
-
-function startGame(difficulity){
+// function to start the game with selected difficulity.
+function startGame(difficulity){ 
+    scoreBoard = document.getElementById("scoreBoard");
+    scoreBoard.innerHTML = "SCORE: "+ currentScore;
     initMap();
     generateTarget();
     setInterval(moveSnack,difficulity);
@@ -81,6 +80,7 @@ function startGame(difficulity){
 
 function initMap(){
     var gameMap = document.getElementById("game");
+    gameMap.innerHTML = "";
     gameMap.style.width = map.width + "px";
     gameMap.style.height = map.height + "px";
     var newSpan = null;
@@ -141,10 +141,9 @@ function moveSnack(){
     var head = document.getElementById(headID);
     for(var i=0; i<snake.length-1; i++){
         if(headID == snake[i].id){
-            console.log(snake.length);
-            console.log(i);
 
             alert('Game Over!');
+            window.location.href=window.location.href;
         }
     }
     // Get the index of the new postion of snake's head, move the postion from
@@ -163,10 +162,20 @@ function moveSnack(){
     // otherwise, the tail of the snake is deleted since the snake is moving 
     //forward.
     if(head.className=="target"){
+        updateScore();
         generateTarget();
     } else {
         snake[0].className = '';
         space.push(snake.shift());
     }    
     head.className = 'snake';
+}
+
+function updateScore(action) {
+
+        currentScore ++;
+        scoreBoard = document.getElementById("scoreBoard");
+        scoreBoard.innerHTML = "SCORE: "+ currentScore;
+
+    
 }
