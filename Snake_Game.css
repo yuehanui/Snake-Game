@@ -30,9 +30,13 @@ body {
     height: 70px;
     background-color: #F76D4F;
     border-radius: 50px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #F76D4F;
 }
 .btn:hover {
     background-color:#FFB871;
+    border-color: #FFB871;
 }
 
 span{
