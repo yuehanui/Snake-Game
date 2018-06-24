@@ -6,6 +6,8 @@ body {
 }
 
 #game{ 
+
+
     background-color: #F3F3F3;
     position:absolute;
     left:0;right:0; top:0; bottom:0;
@@ -13,9 +15,24 @@ body {
     border:1px solid #000;
     font-size: 0;
 }
+
+.btn {
+    color:black;
+    font-size: 25px;
+    margin-top: 200px;
+    margin-right: 10px;
+    margin-left: 10px;
+    width: 150px;
+    height: 70px;
+    background-color: #F76D4F;
+    border-radius: 50px;
+}
+.btn:hover {
+    background-color:#FFB871;
+}
 span{
     display: inline-grid;
-    border: 1px solid grey;
+
     box-sizing: border-box;
 }
 span.snake{background: #3E5F70;}

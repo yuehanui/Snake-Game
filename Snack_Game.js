@@ -11,48 +11,73 @@ var layout = {
     wNum:map.width/span.width,
     hNum:map.height/span.height
 };
-var temp = [];
-var snake =[];
-var space = []
-var dir = DIR.DIR_RIGHT;
+
+var snake =[],
+    space = [],
+    dir = DIR.DIR_RIGHT;
+
+
+var easyBtn = document.getElementById("btn1"),
+    medBtn = document.getElementById("btn2"),
+    legenBtn = document.getElementById("btn3");
+
 
 window.onload=function(){
+    var diffSelc = document.getElementById('game');
+    diffSelc.style.width = map.width + "px";
+    diffSelc.style.height = map.height + "px";
+}
+
+
+
+
+medBtn.addEventListener("click", function() {
+    startGame(100);
+}, true);
+legenBtn.addEventListener("click", function() {
+    startGame(50);
+}, false);
+
+function startGame(difficulity){
     initMap();
-    generateTarget();/*
-    setInterval(moveSnack,50);*/
+    generateTarget();
+    setInterval(moveSnack,difficulity);
     document.onkeyup=function(e){
         switch(e.keyCode){
             case 37: 
                 if (dir == DIR.DIR_RIGHT) {
-                    continue;
+                    break;
                 } else {
                     dir=DIR.DIR_LEFT;
+                    break;
                 }
-                break;
             case 38: 
                 if (dir == DIR.DIR_BOTTOM) {
-                    continue;
+                    break;
                 } else {
                     dir=DIR.DIR_TOP;
+                    break;
                 }
-                break;
             case 39: 
                if (dir == DIR.DIR_LEFT) {
-                    continue;
+                    break;
                 } else {
                     dir=DIR.DIR_RIGHT;
+                    break;
                 }
-                break;
             case 40: 
                 if (dir == DIR.DIR_TOP) {
-                    continue;
+                    break;
                 } else {
                     dir=DIR.DIR_BOTTOM;
+                    break;
                 }
-                break;
+
             default: break;
         }
     }
+
+}
 
 function initMap(){
     var gameMap = document.getElementById("game");
@@ -67,15 +92,15 @@ function initMap(){
         gameMap.appendChild(newSpan);
         if(i<=10){
             newSpan.className = 'snake';
-            temp.push(newSpan);
-            for (var j = 0; j<=temp.length; j++){
-                box = temp.pop();
-                snake.push(box);
-            }
+            snake.push(newSpan);
         } else {
             space.push(newSpan);
         }
     }
+
+
+
+    
 }
 function generateTarget(){
     var i = Math.floor(Math.random()*space.length);
@@ -83,26 +108,65 @@ function generateTarget(){
 }
 
 function moveSnack(){
+    //Get the next position of the snake's head.
     var headID;
+
     switch(dir){
-        case DIR.DIR_LEFT:
-            headID = parseInt(snake[0].id)-1;
+        case DIR.DIR_LEFT:{
+            headID = parseInt(snake[snake.length-1].id)-1;
             if(headID % layout.wNum == 0) {headID += layout.wNum;}
-        case DIR.DIR_TOP:
-            headID = parseInt(snake[0].id)-layout.wNum;
+            break;
+        }
+
+        case DIR.DIR_TOP:{
+            headID = parseInt(snake[snake.length-1].id)-layout.wNum;
             if(headID < 1) {headID += layout.wNum*layout.hNum;}
-        case DIR.DIR_RIGHT;
-            headID = parseInt(snake[0].id)+1;
-            if(headId % layout.wNum ==1) {headID -=layout.wNum;}
-        case DIR.DIR_BOTTOM:
-            headID = parseInt(snake[0].id)+layout.wNum;
+            break;
+        }
+
+        case DIR.DIR_RIGHT:{
+            headID = parseInt(snake[snake.length-1].id)+1;
+            if(headID % layout.wNum ==1) {headID -=layout.wNum;}
+            break;
+        }
+        case DIR.DIR_BOTTOM:{
+            headID = parseInt(snake[snake.length-1].id)+layout.wNum;
             if(headID > layout.wNum*layout.hNum) {headID-=layout.wNum*layout.hNum;}
+            break;
+        }
+
         default:break;
     }
+    // Determine if the game is over.
     var head = document.getElementById(headID);
-    for(var i=1; i<snake.length; i++){
-        if(headId == snake.length[i].id){
+    for(var i=0; i<snake.length-1; i++){
+        if(headID == snake[i].id){
+            console.log(snake.length);
+            console.log(i);
+
             alert('Game Over!');
         }
     }
-}*/
+    // Get the index of the new postion of snake's head, move the postion from
+    // space array to snake array.
+    var index;
+    for (var i = 1; i<space.length;i++){
+        if(headID ==space[i].id){
+            index = i;
+            break;
+        }
+    }
+    space.splice(index,1);
+    snake.push(head);
+    
+    // if the snake hit the target, the length of the snake increases by 1,
+    // otherwise, the tail of the snake is deleted since the snake is moving 
+    //forward.
+    if(head.className=="target"){
+        generateTarget();
+    } else {
+        snake[0].className = '';
+        space.push(snake.shift());
+    }    
+    head.className = 'snake';
+}
